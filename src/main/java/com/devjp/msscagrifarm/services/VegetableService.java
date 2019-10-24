@@ -6,4 +6,10 @@ import java.util.UUID;
 
 public interface VegetableService {
     VegetableDto getVegetableId(UUID vegetableId);
+
+    VegetableDto saveVegetable(VegetableDto vegetableDto);
+
+    void updateVegetable(UUID vegetableId, VegetableDto vegetableDto);
+
+    void deleteById(UUID vegetableId);
 }
