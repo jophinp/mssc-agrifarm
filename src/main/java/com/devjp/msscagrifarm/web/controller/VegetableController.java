@@ -1,12 +1,14 @@
 package com.devjp.msscagrifarm.web.controller;
 
 import com.devjp.msscagrifarm.services.VegetableService;
+import com.devjp.msscagrifarm.web.model.Vegetable;
 import com.devjp.msscagrifarm.web.model.VegetableDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RequestMapping("/api/v1/vegetable")
@@ -19,18 +21,29 @@ public class VegetableController {
         this.vegetableService = vegetableService;
     }
 
+    @GetMapping({"/all"})
+    public List<Vegetable> getVegetable(){
+        return vegetableService.get();
+    }
+
     @GetMapping({"/{vegetableId}"})
     public ResponseEntity<VegetableDto> getVegetable(@PathVariable("vegetableId") UUID vegetableId){
         return new ResponseEntity<>(vegetableService.getVegetableId(vegetableId), HttpStatus.OK);
     }
 
-    @PostMapping
+   /* @PostMapping
     public ResponseEntity handlePost(@RequestBody VegetableDto vegetableDto){
         VegetableDto saveDto = vegetableService.saveVegetable(vegetableDto);
         HttpHeaders httpHeaders  = new HttpHeaders();
         //todo add hostname to url
         httpHeaders.add("Location", "/api/v1/vegetable/" + saveDto.getId().toString());
         return new ResponseEntity(httpHeaders, HttpStatus.CREATED);
+    }*/
+
+    @PostMapping
+    public Vegetable handlePost(@RequestBody Vegetable vegetable){
+        vegetableService.save(vegetable);
+        return vegetable;
     }
 
     @PutMapping({"/{vegetableId}"})
